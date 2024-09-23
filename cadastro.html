@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Clientes</h1>
+        <form action="#" method="post">
+
+            <!--Campo para inserir o nome-->
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" placeholder="Insira seu nome" name="nome" required>
+            </div>
+
+            <!--Campo para inserir o email-->
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Insira seu email" name="email" required>
+            </div>
+
+            <!--Campo para inserir o continenete-->
+	        <div class="form-group">
+                <label for="text">Continente:</label>
+                <input type="text" id="Continente" placeholder="Insira seu continente" name="text" required>
+            </div>
+
+            <!--Campo para inserir o telefone-->
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="tel" id="telefone" placeholder="Insira seu telefone/celular" name="telefone" required>
+            </div>
+
+            <!--Campo para inserir o endereço-->
+            <div class="form-group">
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" placeholder="Insira seu endereço" name="endereco" required>
+            </div>
+            <button type="button" onclick="downloadTxtFile()">Cadastrar</button>
+        </form>
+
+        <script>
+            function downloadTxtFile() {
+                // Coletar dados do formulário
+                const nome = document.getElementById("nome").value;
+                const email = document.getElementById("email").value;
+                const continente = document.getElementById("continente").value;
+                const tel = document.getElementById("telefone").value;
+                const endereco = document.getElementById("endereco").value;
+     
+                // Criar o conteúdo do arquivo TXT
+                const data = `Nome: ${nome}\nEmail: ${email}\nContinente: ${continente}\nTelefone: ${tel}\nEndereço: ${endereco}`;
+     
+                // Criar um blob (arquivo) com o conteúdo
+                const blob = new Blob([data], { type: 'text/plain' });
+                const link = document.createElement("a");
+     
+                // Criar o link para o download
+                link.href = URL.createObjectURL(blob);
+                link.download = "cadastro.txt";
+     
+                // Simular o clique para iniciar o download
+                link.click();
+            }
+        </script>
+    </div>
+</body>
+</html>
