@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Clientes</title>
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Caso queira separar o JavaScript, pode incluir a linha abaixo -->
+    <!-- <script src="js/script.js" defer></script> -->
 </head>
 <body>
     <div class="container">
@@ -23,10 +25,10 @@
                 <input type="email" id="email" placeholder="Insira seu email" name="email" required>
             </div>
 
-            <!--Campo para inserir o continenete-->
-	        <div class="form-group">
-                <label for="text">Continente:</label>
-                <input type="text" id="Continente" placeholder="Insira seu continente" name="text" required>
+            <!--Campo para inserir o continente-->
+            <div class="form-group">
+                <label for="continente">Continente:</label>
+                <input type="text" id="continente" placeholder="Insira o seu país" name="text" required>
             </div>
 
             <!--Campo para inserir o telefone-->
@@ -40,31 +42,41 @@
                 <label for="endereco">Endereço:</label>
                 <input type="text" id="endereco" placeholder="Insira seu endereço" name="endereco" required>
             </div>
-            <button type="button" onclick="downloadTxtFile()">Cadastrar</button>
+            <button type="button" onclick="enviarDados()">Cadastrar</button>
         </form>
 
         <script>
-            function downloadTxtFile() {
+            function enviarDados() {
                 // Coletar dados do formulário
                 const nome = document.getElementById("nome").value;
                 const email = document.getElementById("email").value;
                 const continente = document.getElementById("continente").value;
                 const tel = document.getElementById("telefone").value;
                 const endereco = document.getElementById("endereco").value;
-     
+
                 // Criar o conteúdo do arquivo TXT
                 const data = `Nome: ${nome}\nEmail: ${email}\nContinente: ${continente}\nTelefone: ${tel}\nEndereço: ${endereco}`;
-     
-                // Criar um blob (arquivo) com o conteúdo
-                const blob = new Blob([data], { type: 'text/plain' });
-                const link = document.createElement("a");
-     
-                // Criar o link para o download
-                link.href = URL.createObjectURL(blob);
-                link.download = "cadastro.txt";
-     
-                // Simular o clique para iniciar o download
-                link.click();
+
+                // Fazer uma requisição POST para o backend
+                fetch('http://localhost:3000/cadastrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        fileName: `${nome}_cadastro.txt`, 
+                        content: data
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        alert("Dados enviados com sucesso!");
+                    } else {
+                        alert("Erro ao enviar os dados.");
+                    }
+                }).catch(error => {
+                    console.error("Erro ao enviar os dados:", error);
+                    alert("Erro ao enviar os dados.");
+                });
             }
         </script>
     </div>
